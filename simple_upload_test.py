@@ -94,53 +94,34 @@ def test_file_upload():
         )
         print("Dropdown menu appeared")
         
-        # Step 6: Click the option in the unordered list
+        # Step 6: Click the option 'Upload Files' in the unordered list
         print("Looking for option in dropdown...")
         option = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, ".add-content-options li"))
         )
         option.click()
-        print("Clicked the option in the dropdown")
-        
-        # Step 7: Click the 'Upload Files' button
-        print("Looking for 'Upload Files' button...")
-        upload_button = wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, "//button[contains(@class, 'btn') and contains(text(), 'Upload Files')]")
-            )
-        )
-        upload_button.click()
         print("Clicked the 'Upload Files' button")
         
-        # Step 8: Wait for the input file element to be created
+        # Step 7: Wait for the input file element to be created
         print("Waiting for file input element...")
         time.sleep(1)  # Small delay to ensure the input element is created
         
         # Find the input element
+        # Access the file input from DOM
+        print("Accessing file input from DOM...")
         input_file = wait.until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']#file-loader-input"))
         )
         
-        # If the input is hidden, make it visible
-        if not input_file.is_displayed():
-            print("Input element is hidden, making it visible...")
-            driver.execute_script("""
-                arguments[0].style.display = 'block';
-                arguments[0].style.visibility = 'visible';
-            """, input_file)
-        
         # Upload the image file
-        print(f"Uploading image: {image_path}")
+        print(f"Attaching file to input element: {image_path}")
         # Send the file path to the input element
         input_file.send_keys(image_path)
-        
-        # Trigger the change event explicitly to ensure the upload starts
-        driver.execute_script("arguments[0].dispatchEvent(new Event('change', { 'bubbles': true }))", input_file)
-        print("Image attached to the input element")
+
         
         # Wait for a moment to observe the file upload process
-        print("Waiting for upload process...")
-        time.sleep(5)
+        print("Waiting for uploading process...")
+        time.sleep(1)
         
         # Wait for the upload details modal to appear
         print("Waiting for 'Upload Details' modal...")
