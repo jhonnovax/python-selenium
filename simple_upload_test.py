@@ -99,6 +99,12 @@ def test_file_upload():
         option = wait.until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, ".add-content-options li"))
         )
+        # disable the click event on an `<input>` file
+        driver.execute_script(
+            "HTMLInputElement.prototype.click = function() {                   " +
+            "  if(this.type !== 'file') HTMLElement.prototype.click.call(this);" +
+            "};                                                                " 
+        );
         option.click()
         print("Clicked the 'Upload Files' button")
         
@@ -126,12 +132,12 @@ def test_file_upload():
         # Wait for the upload details modal to appear
         print("Waiting for 'Upload Details' modal...")
         upload_modal = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".on24-modal"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, "on24-modal"))
         )
         
         # Verify the modal title is 'Upload Details'
         modal_title = wait.until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".on24-modal header span.title"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "on24-modal header span.title"))
         )
         
         if modal_title.text == 'Upload Details':
