@@ -112,11 +112,10 @@ def test_file_upload():
         print("Waiting for file input element...")
         time.sleep(1)  # Small delay to ensure the input element is created
         
-        # Find the input element
         # Access the file input from DOM
         print("Accessing file input from DOM...")
         input_file = wait.until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']#file-loader-input"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']#input-upload-files-media-manager"))
         )
         
         # Upload the image file
